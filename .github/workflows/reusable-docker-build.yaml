@@ -100,6 +100,9 @@ on:
       dockerhub-token:
         description: Docker Hub token
         required: false
+      dotenv-file:
+        description: Dotenv file contaiment
+        required: false
 
     outputs:
       image-tag:
@@ -138,13 +141,6 @@ jobs:
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2.9.1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: 'Create env file'
-        run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Login to DockerHub
         if: inputs.dockerhub-enable
@@ -195,6 +191,8 @@ jobs:
           # https://docs.docker.com/build/attestations/attestation-storage/
           provenance: true
           sbom: true
+          build-args: |
+            DOTENV_FILE=${{ secrets.dotenv-file }}
 
         # If PR, put image tags in the PR comments
         # from https://github.com/marketplace/actions/create-or-update-comment
