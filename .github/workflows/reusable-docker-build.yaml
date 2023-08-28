@@ -166,6 +166,10 @@ jobs:
           flavor: ${{ inputs.flavor-rules }}
           tags: ${{ inputs.tag-rules }}
 
+      - name: Create env file
+        run: |
+          echo "${{ secrets.dotenv-file }}" > .env
+
         # this will build the images, once per platform,
         # then push to one or more registries (based on image list above in docker_meta)
         # NOTE: this will not push if a PR is from a fork, where secrets are not available
@@ -191,9 +195,9 @@ jobs:
           # https://docs.docker.com/build/attestations/attestation-storage/
           provenance: true
           sbom: true
-          build-args: |
-            DOTENV_FILE="VITE_API_URL=https://voip1055.ats.reconn.ru/api 
-                          VITE_PUBLIC_URL=https://voip1055.ats.reconn.ru/public"
+          # build-args: |
+          #   DOTENV_FILE="VITE_API_URL=https://voip1055.ats.reconn.ru/api 
+          #                 VITE_PUBLIC_URL=https://voip1055.ats.reconn.ru/public"
 
         # If PR, put image tags in the PR comments
         # from https://github.com/marketplace/actions/create-or-update-comment
