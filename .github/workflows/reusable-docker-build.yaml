@@ -169,6 +169,7 @@ jobs:
           tags: ${{ inputs.tag-rules }}
 
       - name: Create env file
+        if: secrets.dotenv-file != ''
         run: |
           echo "${{ secrets.dotenv-file }}" > .env
 
