@@ -103,7 +103,10 @@ on:
       dotenv-file:
         description: Dotenv file contaiment
         required: false
-
+      dotenv-private-key:
+        description: dotenvx private-key
+        required: false
+      
     outputs:
       image-tag:
         description: "single-use image tag for GHA runs"
@@ -198,9 +201,8 @@ jobs:
           # https://docs.docker.com/build/attestations/attestation-storage/
           provenance: true
           sbom: true
-          # build-args: |
-          #   DOTENV_FILE="VITE_API_URL=https://voip1055.ats.reconn.ru/api 
-          #                 VITE_PUBLIC_URL=https://voip1055.ats.reconn.ru/public"
+          secrets: |
+            dotenv-private-key = ${{ inputs.dotenv-private-key }}
 
         # If PR, put image tags in the PR comments
         # from https://github.com/marketplace/actions/create-or-update-comment
