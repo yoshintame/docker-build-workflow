@@ -171,11 +171,6 @@ jobs:
           flavor: ${{ inputs.flavor-rules }}
           tags: ${{ inputs.tag-rules }}
 
-      # - name: Create env file
-      #   if: secrets.dotenv-file != ''
-      #   run: |
-      #     echo "${{ secrets.dotenv-file }}" > .env
-
         # this will build the images, once per platform,
         # then push to one or more registries (based on image list above in docker_meta)
         # NOTE: this will not push if a PR is from a fork, where secrets are not available
